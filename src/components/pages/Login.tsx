@@ -1,12 +1,15 @@
 import { Input } from '@chakra-ui/input';
 import { Box, Divider, Flex, Heading, Stack } from '@chakra-ui/layout';
 import { ChangeEvent, memo, useState, VFC } from 'react';
+import { useAuth } from '../../hooks/useAuth';
 import { PrimaryButton } from '../atoms/button/PrimaryButton';
 
 export const Login: VFC = memo(() => {
+  const { login, loading } = useAuth();
   const [userId, setUserId] = useState('');
   const onChangeUserID = (e: ChangeEvent<HTMLInputElement>) =>
     setUserId(e.target.value);
+  const onClickLogin = () => login(userId);
 
   return (
     <Flex alignItems="center" justifyContent="center" h="100vh">
@@ -21,7 +24,13 @@ export const Login: VFC = memo(() => {
             value={userId}
             onChange={onChangeUserID}
           />
-          <PrimaryButton>Login</PrimaryButton>
+          <PrimaryButton
+            disable={userId === ''}
+            loading={loading}
+            onClick={onClickLogin}
+          >
+            Login
+          </PrimaryButton>
         </Stack>
       </Box>
     </Flex>
