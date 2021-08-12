@@ -5,12 +5,17 @@ import { memo, useCallback, useEffect, VFC } from 'react';
 import { UserCard } from '../organisms/user/UserCard';
 import { useAllUsers } from '../../hooks/useAllUsers';
 import { UserDetailModal } from '../organisms/user/UserDetailModal';
+import { useSelectUser } from '../../hooks/useSelectUser';
 
 export const UserManagement: VFC = memo(() => {
+  const { onSelectUser, selectedUser } = useSelectUser();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { getUsers, loading, users } = useAllUsers();
   useEffect(() => getUsers(), []);
-  const onClickUser = useCallback(() => onOpen(), []);
+  const onClickUser = useCallback((id: number) => {
+    // console.log(id);
+    onSelectUser({ id, users, onOpen });
+  }, []);
   return (
     <>
       {loading ? (
@@ -24,10 +29,11 @@ export const UserManagement: VFC = memo(() => {
           />
         </Center>
       ) : (
-        <Wrap p={{ base: 5, md: 10 }}>
+        <Wrap p={{ base: 5, md: 10 }} justify="center">
           {users.map((user) => (
-            <WrapItem key={user.id} mx="auto">
+            <WrapItem key={user.id}>
               <UserCard
+                id={user.id}
                 userName={user.username}
                 fullName={user.name}
                 imageUrl="https://source.unsplash.com/random"
