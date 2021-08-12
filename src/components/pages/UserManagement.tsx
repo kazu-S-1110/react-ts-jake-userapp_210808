@@ -1,22 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Center, Stack, Wrap } from '@chakra-ui/layout';
-import {
-  FormControl,
-  FormLabel,
-  Input,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalHeader,
-  ModalOverlay,
-  Spinner,
-  useDisclosure,
-  WrapItem,
-} from '@chakra-ui/react';
+import { Center, Wrap } from '@chakra-ui/layout';
+import { Spinner, useDisclosure, WrapItem } from '@chakra-ui/react';
 import { memo, useCallback, useEffect, VFC } from 'react';
 import { UserCard } from '../organisms/user/UserCard';
 import { useAllUsers } from '../../hooks/useAllUsers';
+import { UserDetailModal } from '../organisms/user/UserDetailModal';
 
 export const UserManagement: VFC = memo(() => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -49,33 +37,7 @@ export const UserManagement: VFC = memo(() => {
           ))}
         </Wrap>
       )}
-      <Modal isOpen={isOpen} onClose={onClose} motionPreset="slideInRight">
-        <ModalOverlay />
-        <ModalContent pb="5">
-          <ModalHeader>User Detail</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody mx="5">
-            <Stack spacing={5}>
-              <FormControl>
-                <FormLabel>Name</FormLabel>
-                <Input value="hogehoge" isReadOnly />
-              </FormControl>
-              <FormControl>
-                <FormLabel>Full Name</FormLabel>
-                <Input value="hogehoge" isReadOnly />
-              </FormControl>
-              <FormControl>
-                <FormLabel>Mail</FormLabel>
-                <Input value="hogehoge" isReadOnly />
-              </FormControl>
-              <FormControl>
-                <FormLabel>Tel</FormLabel>
-                <Input value="hogehoge" isReadOnly />
-              </FormControl>
-            </Stack>
-          </ModalBody>
-        </ModalContent>
-      </Modal>
+      <UserDetailModal isOpen={isOpen} onClose={onClose} />
     </>
   );
 });
