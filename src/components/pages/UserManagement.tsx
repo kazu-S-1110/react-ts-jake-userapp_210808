@@ -12,10 +12,13 @@ export const UserManagement: VFC = memo(() => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { getUsers, loading, users } = useAllUsers();
   useEffect(() => getUsers(), []);
-  const onClickUser = useCallback((id: number) => {
-    // console.log(id);
-    onSelectUser({ id, users, onOpen });
-  }, []);
+  const onClickUser = useCallback(
+    (id: number) => {
+      // console.log(id);
+      onSelectUser({ id, users, onOpen });
+    },
+    [users, onSelectUser, onOpen] //初期状態のまま関数を渡してしまっているので再読み込みさせたいトリガーを設定する
+  );
   return (
     <>
       {loading ? (
@@ -43,7 +46,7 @@ export const UserManagement: VFC = memo(() => {
           ))}
         </Wrap>
       )}
-      <UserDetailModal isOpen={isOpen} onClose={onClose} />
+      <UserDetailModal user={selectedUser} isOpen={isOpen} onClose={onClose} />
     </>
   );
 });
